@@ -5,10 +5,11 @@ from tqdm import tqdm
 import json
 import os
 
-ROLES = {#"agent": lambda p: ((p['volition']['value'] > 0) or p['instigation']['value'] > 0) and (p['existed_before']['value'] > 0),
+ROLES = {"agent": lambda p: ((p['volition']['value'] > 0) or p['instigation']['value'] > 0) and (p['existed_before']['value'] > 0),
          "patient": lambda b: ((b['change_of_state']['value'] > 0) or b['change_of_state_continuous']['value'] > 0) and (b['existed_before']['value'] > 0),
          "location": lambda c: (c['location']['value'] > 0),
          "instrument": lambda d: (d['was_used']['value'] > 0) and (d['existed_during']['value'] > 0),
+         "experiencer": lambda e: ((e['awareness']['value'] > 0) or e['sentient']['value'] > 0) and (((b['change_of_state']['value'] > 0) or b['change_of_state_continuous']['value'] > 0) and (b['existed_before']['value'] > 0)),
         }
 
 PATHNAME = "/Users/rrosset/Documents/Spring_2021/EventSemantics/hw1/data"
