@@ -50,17 +50,11 @@ class SRLLSTM(Model):
         embedded = self._embedder(tokens)
         encoded = self._encoder(embedded, mask)
         
-        print("type", predicate_index[0])
         pred_encode = encoded[torch.arange(encoded.size(0)), torch.tensor(predicate_index[:,0])]
         arg_encode = encoded[torch.arange(encoded.size(0)), torch.tensor(argument_index[:,0])]
 
-        print("pred", pred_encode.size(), pred_encode)
-        print("ard", arg_encode.size(), arg_encode)
-
-
 
         concat_encode = torch.cat((arg_encode, pred_encode), 1)
-        print("PICK EM BOYS", concat_encode, concat_encode.size())
         predictions = self._classifier(concat_encode)
         # use F1Measure as self.metric
         output: Dict[str, torch.Tensor] = {}
@@ -77,7 +71,6 @@ class SRLLSTM(Model):
             print("i, j", i, j)
         compare = torch.stack(one_zero_preds, 1)
         predictions = torch.flip(compare, [1])
-        print("PREDS", compare)
         #d_predictions = predictions.argmax(1)
 
         if label is not None:
